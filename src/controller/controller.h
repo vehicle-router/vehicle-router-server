@@ -7,21 +7,21 @@
 
 class Controller {
 protected:
-	experimental::listener::http_listener http_listener;
+    experimental::listener::http_listener http_listener;
 public:
-	Controller();
+    Controller();
 
-	virtual ~Controller();
+    virtual ~Controller();
 
-	virtual void initializeRestHandlers();
+    virtual void initializeRestHandlers();
 
-	void setEndpoint(const utility::string_t& value);
+    void setEndpoint(const utility::string_t& value);
 
-	utility::string_t getEndpoint() const;
+    utility::string_t getEndpoint() const;
 
-	pplx::task<void> accept();
+    pplx::task<void> accept();
 
-	pplx::task<void> shutdown();
+    pplx::task<void> shutdown();
 
-	std::vector<utility::string_t> requestPath(const http_request& request);
+    std::vector<utility::string_t> requestPath(const http_request& request);
 };
