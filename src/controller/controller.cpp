@@ -13,7 +13,7 @@ void Controller::setEndpoint(const utility::string_t& value) {
 	endpoint_builder.set_scheme(endpoint_uri.scheme());
 
 	if (endpoint_uri.host() == L"host_auto_ip4") {
-		endpoint_builder.set_host(endpoint_uri.host());
+		endpoint_builder.set_host(L"localhost");
 	}
 
 	endpoint_builder.set_port(endpoint_uri.port());

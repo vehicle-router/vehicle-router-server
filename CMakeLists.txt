@@ -12,8 +12,11 @@ find_package (cpprestsdk REQUIRED NAMES cpprestsdk cpprest)
 set (SRC src)
 set (CONTROLLERS controller)
 set (SOURCES ${SRC}/service_runner.cpp
+             ${SRC}/interrupts.h
              ${SRC}/${CONTROLLERS}/handler.h
              ${SRC}/${CONTROLLERS}/controller.h
-             ${SRC}/${CONTROLLERS}/controller.cpp)
+             ${SRC}/${CONTROLLERS}/controller.cpp
+             ${SRC}/${CONTROLLERS}/micro_service_controller.h
+             ${SRC}/${CONTROLLERS}/micro_service_controller.cpp)
 
 configure_target_executable (${PROJECT_NAME} "${SOURCES}")

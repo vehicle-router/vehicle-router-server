@@ -6,12 +6,12 @@
 #include "handler.h"
 
 class Controller {
-
+protected:
 	experimental::listener::http_listener http_listener;
 public:
 	Controller();
 
-	~Controller();
+	virtual ~Controller();
 
 	virtual void initializeRestHandlers();
 
