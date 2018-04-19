@@ -20,9 +20,13 @@ json::value MicroServiceController::responseNotImplemented(const http::method& h
 void MicroServiceController::handleGet(http_request request) {
 	auto path = requestPath(request);
 
-	std::cout << "Handling GET \n";
-	if (!path.empty()) {
-		request.reply(status_codes::OK);
+	if (!path.empty() && path[0] == L"test") {
+		auto response = json::value::object();
+
+		response[L"status"] = json::value::string(L"Online");
+		response[L"version"] = json::value::string(L"0.1");
+
+		request.reply(status_codes::OK, response);
 	}
 	else {
 		request.reply(status_codes::NotFound);
