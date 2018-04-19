@@ -9,7 +9,11 @@ project (${PROJECT_NAME})
 
 find_package (cpprestsdk REQUIRED NAMES cpprestsdk cpprest)
 
-set (SRC "src")
-set (SOURCES ${SRC}/main.cpp)
+set (SRC src)
+set (CONTROLLERS controller)
+set (SOURCES ${SRC}/service_runner.cpp
+             ${SRC}/${CONTROLLERS}/handler.h
+             ${SRC}/${CONTROLLERS}/controller.h
+             ${SRC}/${CONTROLLERS}/controller.cpp)
 
 configure_target_executable (${PROJECT_NAME} "${SOURCES}")
