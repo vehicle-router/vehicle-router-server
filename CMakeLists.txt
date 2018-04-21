@@ -1,6 +1,5 @@
 function (configure_target_executable target_name src)
     add_executable (${target_name} ${src})
-    message (STATUS ${CudaRouterLibrary_DIR})
     add_custom_command (TARGET ${target_name} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory 
             ${CudaRouterLibrary_DIR}/$<$<CONFIG:Debug>:debug/>bin $<TARGET_FILE_DIR:${target_name}>)
 
