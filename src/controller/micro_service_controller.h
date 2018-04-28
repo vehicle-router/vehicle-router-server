@@ -1,21 +1,10 @@
 #pragma once
 #include "controller.h"
 
-class MicroServiceController : public Controller, Handler {
+class MicroServiceController : public controller::Standard_controller {
 
-    json::value responseNotImplemented(const http::method& http_method);
 public:
-    MicroServiceController(): Controller() {}
+    MicroServiceController(): Standard_controller() {}
 
     ~MicroServiceController() {}
-
-    void handleGet(http_request request) override;
-
-    void handlePut(http_request request) override;
-
-    void handlePost(http_request request) override;
-
-    void handleDelete(http_request request) override;
-
-    void initializeRestHandlers() override;
 };

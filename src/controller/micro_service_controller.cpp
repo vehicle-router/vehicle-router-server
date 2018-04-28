@@ -1,14 +1,15 @@
+#include <router_library.h>
 #include "micro_service_controller.h"
 
 void MicroServiceController::initializeRestHandlers() {
-    http_listener.support(methods::GET, std::bind(&MicroServiceController::handleGet, this, std::placeholders::_1));
-    http_listener.support(methods::PUT, std::bind(&MicroServiceController::handlePut, this, std::placeholders::_1));
-    http_listener.support(methods::POST, std::bind(&MicroServiceController::handlePost, this, std::placeholders::_1));
-    http_listener.support(methods::DEL, std::bind(&MicroServiceController::handleDelete, this, std::placeholders::_1));
+    http_listener.support(methods::GET, [&](auto request) -> void { handleGet(request); });
+    http_listener.support(methods::PUT, [&](auto request) -> void { handlePut(request); });
+    http_listener.support(methods::POST, [&](auto request) -> void { handlePost(request); });
+    http_listener.support(methods::DEL, [&](auto request) -> void { handleDelete(request); });
 }
 
 
-json::value MicroServiceController::responseNotImplemented(const http::method& http_method) {
+json::value MicroServiceController::responseNotImplemented(const http::method& http_method) const {
     auto response = json::value::object();
 
     response[L"serviceName"] = json::value::string(L"C++ Rest SDK microservice");
@@ -26,6 +27,7 @@ void MicroServiceController::handleGet(http_request request) {
         response[L"status"] = json::value::string(L"Online");
         response[L"version"] = json::value::string(L"0.1");
 
+        vr::executeInParallel();
         request.reply(status_codes::OK, response);
     }
     else {

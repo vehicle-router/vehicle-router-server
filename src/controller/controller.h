@@ -5,23 +5,45 @@
 #include <cpprest/http_listener.h>
 #include "handler.h"
 
-class Controller {
-protected:
-    experimental::listener::http_listener http_listener;
-public:
-    Controller();
+namespace controller {
 
-    virtual ~Controller();
+    using namespace utility;
+    using namespace web;
+    using namespace http;
+    using namespace experimental::listener;
 
-    virtual void initializeRestHandlers();
+    class Standard_controller : handler::Http_request_handler {
+    protected:
+        http_listener* http_listener;
 
-    void setEndpoint(const utility::string_t& value);
+        json::value responseNotImplemented(const http::method& http_method);
+    public:
+        Standard_controller();
 
-    utility::string_t getEndpoint() const;
+        Standard_controller(uri& endpoint_uri);
 
-    pplx::task<void> accept();
+        Standard_controller(string_t& endpoint);
 
-    pplx::task<void> shutdown();
+        virtual ~Standard_controller();
 
-    std::vector<utility::string_t> requestPath(const http_request& request);
-};
+        void handle_get(http_request request) override;
+
+        void handle_put(http_request request) override;
+
+        void handle_post(http_request request) override;
+
+        void handle_delete(http_request request) override;
+
+        virtual void initialize_http_handlers();
+
+        void setEndpoint(const utility::string_t& value);
+
+        utility::string_t getEndpoint() const;
+
+        pplx::task<void> accept();
+
+        pplx::task<void> shutdown();
+
+        std::vector<utility::string_t> requestPath(const http_request& request);
+    };
+}

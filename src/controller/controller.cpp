@@ -1,12 +1,40 @@
 #include "controller.h"
 
-Controller::Controller() {}
+using namespace controller;
 
-Controller::~Controller() {}
+Standard_controller::Standard_controller() {
+    http_listener = new ::http_listener;
+}
 
-void Controller::initializeRestHandlers() {}
+Standard_controller::Standard_controller(uri& endpoint_uri) {
+    http_listener = new ::http_listener(endpoint_uri);
+}
+Standard_controller::Standard_controller(string_t& endpoint) {
+    http_listener = new ::http_listener(uri(endpoint));
+}
 
-void Controller::setEndpoint(const utility::string_t& value) {
+void Standard_controller::handle_get(http_request request) {}
+void Standard_controller::handle_put(http_request request) {}
+void Standard_controller::handle_post(http_request request) {}
+void Standard_controller::handle_delete(http_request request) {}
+
+Standard_controller::~Standard_controller() {
+    delete http_listener;
+}
+
+void Standard_controller::initialize_http_handlers() {}
+
+
+json::value Standard_controller::responseNotImplemented(const http::method& http_method) {
+    auto response = json::value::object();
+
+    response[L"serviceName"] = json::value::string(L"C++ Rest SDK microservice");
+    response[L"httpMethod"] = json::value::string(http_method);
+
+    return response;
+}
+
+void Standard_controller::setEndpoint(const utility::string_t& value) {
     uri endpoint_uri(value);
     uri_builder endpoint_builder;
 
@@ -22,21 +50,21 @@ void Controller::setEndpoint(const utility::string_t& value) {
     http_listener = experimental::listener::http_listener(endpoint_builder.to_uri());
 }
 
-utility::string_t Controller::getEndpoint() const {
+utility::string_t Standard_controller::getEndpoint() const {
     return http_listener.uri().to_string();
 }
 
-pplx::task<void> Controller::accept() {
-    initializeRestHandlers();
+pplx::task<void> Standard_controller::accept() {
+    initialize_http_handlers();
 
     return http_listener.open();
 }
 
-pplx::task<void> Controller::shutdown() {
+pplx::task<void> Standard_controller::shutdown() {
     return http_listener.close();
 }
 
-std::vector<utility::string_t> Controller::requestPath(const http_request& request) {
+std::vector<utility::string_t> Standard_controller::requestPath(const http_request& request) {
     const auto decoded = uri::decode(request.relative_uri().path());
 
     return uri::split_path(decoded);

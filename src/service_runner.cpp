@@ -5,16 +5,18 @@
 int main(int argc, char* argv) {
     InterruptHandler::hookSIGINT();
 
-    MicroServiceController controller;
+    Controller* controller{new MicroServiceController};
 
-    controller.setEndpoint(L"http://host_auto_ip4:6060/api");
+    controller->setEndpoint(L"http://host_auto_ip4:6060/api");
 
     try {
-        controller.accept().wait();
-        std::wcout << "Listening for requests at: " << controller.getEndpoint() << '\n';
+        controller->accept().wait();
+        std::wcout << "Listening for requests at: " << controller->getEndpoint() << '\n';
 
         InterruptHandler::waitForUserInterrupt();
-        controller.shutdown().wait();
+
+        controller->shutdown().wait();
+        delete controller;
     }
     catch (std::exception& e) {
         std::cerr << "Something went wrong " << e.what() << std::endl;
