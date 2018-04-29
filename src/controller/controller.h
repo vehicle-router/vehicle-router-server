@@ -7,16 +7,17 @@
 
 namespace controller {
 
+    using namespace handler;
     using namespace utility;
-    using namespace web;
-    using namespace http;
     using namespace experimental::listener;
 
-    class Standard_controller : handler::Http_request_handler {
+    class Standard_controller : Http_request_handler {
     protected:
         http_listener* http_listener;
 
-        json::value responseNotImplemented(const http::method& http_method);
+        json::value create_unsupported_response_json(const method& http_method) const;
+
+        void initialize_http_handlers();
     public:
         Standard_controller();
 
@@ -26,24 +27,22 @@ namespace controller {
 
         virtual ~Standard_controller();
 
-        void handle_get(http_request request) override;
+        void handle_get(http_request& request) override;
 
-        void handle_put(http_request request) override;
+        void handle_put(http_request& request) override;
 
-        void handle_post(http_request request) override;
+        void handle_post(http_request& request) override;
 
-        void handle_delete(http_request request) override;
+        void handle_delete(http_request& request) override;
 
-        virtual void initialize_http_handlers();
+        void setEndpoint(const string_t& value);
 
-        void setEndpoint(const utility::string_t& value);
+        string_t getEndpoint() const;
 
-        utility::string_t getEndpoint() const;
+        pplx::task<void> open();
 
-        pplx::task<void> accept();
+        pplx::task<void> close() const;
 
-        pplx::task<void> shutdown();
-
-        std::vector<utility::string_t> requestPath(const http_request& request);
+        static std::vector<string_t> split_request_uri(const http_request& request);
     };
 }

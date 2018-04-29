@@ -24,7 +24,7 @@ set (SOURCES ${SRC}/service_runner.cpp
              ${SRC}/${CONTROLLERS}/handler.h
              ${SRC}/${CONTROLLERS}/controller.h
              ${SRC}/${CONTROLLERS}/controller.cpp
-             ${SRC}/${CONTROLLERS}/micro_service_controller.h
-             ${SRC}/${CONTROLLERS}/micro_service_controller.cpp)
+             ${SRC}/${CONTROLLERS}/router_controller.h
+             ${SRC}/${CONTROLLERS}/router_controller.cpp)
 
 configure_target_executable (${PROJECT_NAME} "${SOURCES}")

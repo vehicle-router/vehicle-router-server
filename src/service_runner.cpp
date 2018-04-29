@@ -1,21 +1,23 @@
 #include <iostream>
 #include "interrupts.h"
-#include "controller/micro_service_controller.h"
+#include "controller/router_controller.h"
 
 int main(int argc, char* argv) {
+    using namespace controller;
+    using namespace routing;
+
     InterruptHandler::hookSIGINT();
 
-    Controller* controller{new MicroServiceController};
-
-    controller->setEndpoint(L"http://host_auto_ip4:6060/api");
+    uri endpoint(L"http://localhost:6060/api");
+    Standard_controller* controller{new Routing_endpoint_controller(endpoint)};
 
     try {
-        controller->accept().wait();
+        controller->open();
         std::wcout << "Listening for requests at: " << controller->getEndpoint() << '\n';
 
         InterruptHandler::waitForUserInterrupt();
 
-        controller->shutdown().wait();
+        controller->close().wait();
         delete controller;
     }
     catch (std::exception& e) {

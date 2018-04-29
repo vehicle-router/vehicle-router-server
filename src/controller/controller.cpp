@@ -9,26 +9,43 @@ Standard_controller::Standard_controller() {
 Standard_controller::Standard_controller(uri& endpoint_uri) {
     http_listener = new ::http_listener(endpoint_uri);
 }
+
 Standard_controller::Standard_controller(string_t& endpoint) {
     http_listener = new ::http_listener(uri(endpoint));
 }
 
-void Standard_controller::handle_get(http_request request) {}
-void Standard_controller::handle_put(http_request request) {}
-void Standard_controller::handle_post(http_request request) {}
-void Standard_controller::handle_delete(http_request request) {}
+void Standard_controller::handle_get(http_request& request) {
+    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::GET));
+}
+
+void Standard_controller::handle_put(http_request& request) {
+    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::PUT));
+}
+
+void Standard_controller::handle_post(http_request& request) {
+    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::POST));
+}
+
+void Standard_controller::handle_delete(http_request& request) {
+    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::DEL));
+}
 
 Standard_controller::~Standard_controller() {
     delete http_listener;
 }
 
-void Standard_controller::initialize_http_handlers() {}
+void Standard_controller::initialize_http_handlers() {
+    http_listener->support(methods::GET, [&](http_request& request) -> void { handle_get(request); });
+    http_listener->support(methods::PUT, [&](http_request& request) -> void { handle_put(request); });
+    http_listener->support(methods::POST, [&](http_request& request) -> void { handle_post(request); });
+    http_listener->support(methods::DEL, [&](http_request& request) -> void { handle_delete(request); });
+}
 
 
-json::value Standard_controller::responseNotImplemented(const http::method& http_method) {
+json::value Standard_controller::create_unsupported_response_json(const http::method& http_method) const {
     auto response = json::value::object();
 
-    response[L"serviceName"] = json::value::string(L"C++ Rest SDK microservice");
+    response[L"error"] = json::value::string(L"Method not supported/implemented");
     response[L"httpMethod"] = json::value::string(http_method);
 
     return response;
@@ -47,24 +64,25 @@ void Standard_controller::setEndpoint(const utility::string_t& value) {
     endpoint_builder.set_port(endpoint_uri.port());
     endpoint_builder.set_path(endpoint_uri.path());
 
-    http_listener = experimental::listener::http_listener(endpoint_builder.to_uri());
+    delete http_listener;
+    http_listener = new experimental::listener::http_listener(endpoint_builder.to_uri());
 }
 
-utility::string_t Standard_controller::getEndpoint() const {
-    return http_listener.uri().to_string();
+string_t Standard_controller::getEndpoint() const {
+    return http_listener->uri().to_string();
 }
 
-pplx::task<void> Standard_controller::accept() {
+pplx::task<void> Standard_controller::open() {
     initialize_http_handlers();
 
-    return http_listener.open();
+    return http_listener->open();
 }
 
-pplx::task<void> Standard_controller::shutdown() {
-    return http_listener.close();
+pplx::task<void> Standard_controller::close() const {
+    return http_listener->close();
 }
 
-std::vector<utility::string_t> Standard_controller::requestPath(const http_request& request) {
+std::vector<string_t> Standard_controller::split_request_uri(const http_request& request) {
     const auto decoded = uri::decode(request.relative_uri().path());
 
     return uri::split_path(decoded);
