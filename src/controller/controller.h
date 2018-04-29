@@ -35,9 +35,9 @@ namespace controller {
 
         void handle_delete(http_request& request) override;
 
-        void setEndpoint(const string_t& value);
+        void set_endpoint(const string_t& value);
 
-        string_t getEndpoint() const;
+        string_t get_endpoint() const;
 
         pplx::task<void> open();
 

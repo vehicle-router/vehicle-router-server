@@ -13,7 +13,7 @@ int main(int argc, char* argv) {
 
     try {
         controller->open();
-        std::wcout << "Listening for requests at: " << controller->getEndpoint() << '\n';
+        std::wcout << "Listening for requests at: " << controller->get_endpoint() << '\n';
 
         InterruptHandler::waitForUserInterrupt();
 

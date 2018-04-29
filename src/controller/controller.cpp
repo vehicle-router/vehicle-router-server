@@ -51,24 +51,14 @@ json::value Standard_controller::create_unsupported_response_json(const http::me
     return response;
 }
 
-void Standard_controller::setEndpoint(const utility::string_t& value) {
-    uri endpoint_uri(value);
-    uri_builder endpoint_builder;
-
-    endpoint_builder.set_scheme(endpoint_uri.scheme());
-
-    if (endpoint_uri.host() == L"host_auto_ip4") {
-        endpoint_builder.set_host(L"localhost");
-    }
-
-    endpoint_builder.set_port(endpoint_uri.port());
-    endpoint_builder.set_path(endpoint_uri.path());
-
+void Standard_controller::set_endpoint(const utility::string_t& value) {
     delete http_listener;
-    http_listener = new experimental::listener::http_listener(endpoint_builder.to_uri());
+
+    const uri new_endpoint(value);
+    http_listener = new experimental::listener::http_listener(new_endpoint);
 }
 
-string_t Standard_controller::getEndpoint() const {
+string_t Standard_controller::get_endpoint() const {
     return http_listener->uri().to_string();
 }
 
