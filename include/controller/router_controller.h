@@ -1,16 +1,14 @@
 #pragma once
 #include "controller.h"
 
-namespace routing {
-
-    using namespace controller;
+namespace controller {
 
     class Routing_endpoint_controller : public Standard_controller {
 
     public:
         Routing_endpoint_controller() = default;
 
-        Routing_endpoint_controller(uri& endpoint_uri): Standard_controller(endpoint_uri) {}
+        Routing_endpoint_controller(const uri& endpoint_uri): Standard_controller(endpoint_uri) {}
 
         virtual ~Routing_endpoint_controller();
 

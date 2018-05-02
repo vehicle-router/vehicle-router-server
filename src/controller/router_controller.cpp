@@ -1,6 +1,6 @@
-#include "router_controller.h"
+#include "controller/router_controller.h"
 
-using namespace routing;
+using namespace controller;
 
 Routing_endpoint_controller::~Routing_endpoint_controller() = default;
 

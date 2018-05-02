@@ -21,9 +21,9 @@ namespace controller {
     public:
         Standard_controller();
 
-        Standard_controller(uri& endpoint_uri);
+        Standard_controller(const uri& endpoint_uri);
 
-        Standard_controller(string_t& endpoint);
+        Standard_controller(const string_t& endpoint);
 
         virtual ~Standard_controller();
 

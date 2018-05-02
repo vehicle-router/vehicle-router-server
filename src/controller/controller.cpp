@@ -6,11 +6,11 @@ Standard_controller::Standard_controller() {
     http_listener = new ::http_listener;
 }
 
-Standard_controller::Standard_controller(uri& endpoint_uri) {
+Standard_controller::Standard_controller(const uri& endpoint_uri) {
     http_listener = new ::http_listener(endpoint_uri);
 }
 
-Standard_controller::Standard_controller(string_t& endpoint) {
+Standard_controller::Standard_controller(const string_t& endpoint) {
     http_listener = new ::http_listener(uri(endpoint));
 }
 
