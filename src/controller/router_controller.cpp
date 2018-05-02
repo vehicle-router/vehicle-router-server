@@ -1,4 +1,3 @@
-#include <router_library.h>
 #include "router_controller.h"
 
 using namespace routing;
@@ -14,7 +13,6 @@ void Routing_endpoint_controller::handle_get(http_request& request) {
         response[L"status"] = json::value::string(L"Online");
         response[L"version"] = json::value::string(L"0.1");
 
-        vr::executeInParallel();
         request.reply(status_codes::OK, response);
     }
     else {

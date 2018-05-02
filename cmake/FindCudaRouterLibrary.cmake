@@ -15,7 +15,7 @@ if (WIN32)
     set (CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${CudaRouterLibrary_DIR})
 endif ()
 
-find_path (CudaRouterLibrary_INCLUDE_DIRS NAMES router_library.h)
+find_path (CudaRouterLibrary_INCLUDE_DIRS NAMES library_exports.h)
 find_library (CudaRouterLibrary_LIBRARIES NAMES cuda-vehicle-router-lib)
 find_library (CudaRouterLibrary_LIBRARIES_DEB NAMES cuda-vehicle-router-libd PATH_SUFFIXES debug/lib)
 
