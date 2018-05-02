@@ -12,24 +12,23 @@ using namespace controller;
 inline std::vector<Standard_controller*> register_controllers();
 
 int main(int argc, char* argv) {
-    using namespace controller;
-
-    InterruptHandler::hookSIGINT();
-
     auto logger = spdlog::stdout_color_st("vehicle-router-server");
-    auto controllers = register_controllers();
 
     try {
+        auto controllers = register_controllers();
         std::for_each(controllers.begin(), controllers.end(), [&](Standard_controller* controller) -> void {
 
             controller->open();
             logger->info("Endpoint opened at: {}", conversions::to_utf8string(controller->get_endpoint()));
         });
 
+        InterruptHandler::hookSIGINT();
         InterruptHandler::waitForUserInterrupt();
 
         std::for_each(controllers.begin(), controllers.end(), [&](Standard_controller* controller) -> void {
             controller->close().wait();
+
+            delete controller;
         });
     }
     catch (std::exception& e) {
