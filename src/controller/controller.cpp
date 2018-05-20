@@ -15,19 +15,19 @@ Standard_controller::Standard_controller(const string_t& endpoint) {
 }
 
 void Standard_controller::handle_get(http_request& request) {
-    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::GET));
+    request.reply(status_codes::MethodNotAllowed, create_unsupported_response_json(methods::GET));
 }
 
 void Standard_controller::handle_put(http_request& request) {
-    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::PUT));
+    request.reply(status_codes::MethodNotAllowed, create_unsupported_response_json(methods::PUT));
 }
 
 void Standard_controller::handle_post(http_request& request) {
-    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::POST));
+    request.reply(status_codes::MethodNotAllowed, create_unsupported_response_json(methods::POST));
 }
 
 void Standard_controller::handle_delete(http_request& request) {
-    request.reply(status_codes::NotImplemented, create_unsupported_response_json(methods::DEL));
+    request.reply(status_codes::MethodNotAllowed, create_unsupported_response_json(methods::DEL));
 }
 
 Standard_controller::~Standard_controller() {
@@ -45,7 +45,7 @@ void Standard_controller::initialize_http_handlers() {
 json::value Standard_controller::create_unsupported_response_json(const http::method& http_method) const {
     auto response = json::value::object();
 
-    response[L"error"] = json::value::string(L"Method not supported/implemented");
+    response[L"error"] = json::value::string(L"Method not allowed/implemented");
     response[L"httpMethod"] = json::value::string(http_method);
 
     return response;
