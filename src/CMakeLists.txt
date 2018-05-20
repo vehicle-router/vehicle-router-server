@@ -23,4 +23,7 @@ set (SOURCES server_launcher.cpp
         controller/device_query_controller.cpp)
 set (EXE_SOURCES ${HEADERS} ${SOURCES})
 
+source_group (TREE ${PROJECT_SOURCE_DIR}/include PREFIX "Header Files" FILES ${HEADERS})
+source_group (TREE ${PROJECT_SOURCE_DIR}/src PREFIX "Source Files" FILES ${SOURCES})
+
 configure_target_executable (${PROJECT_NAME} "${EXE_SOURCES}")
