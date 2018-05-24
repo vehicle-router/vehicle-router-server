@@ -51,7 +51,7 @@ json::value Standard_controller::create_unsupported_response_json(const http::me
     return response;
 }
 
-void Standard_controller::set_endpoint(const utility::string_t& value) {
+void Standard_controller::set_endpoint(const string_t& value) {
     delete http_listener;
 
     const uri new_endpoint(value);

@@ -12,6 +12,6 @@ namespace controller {
 
         virtual ~Routing_endpoint_controller();
 
-        void handle_get(http_request& request) override;
+        void handle_post(http_request& request) override;
     };
 }

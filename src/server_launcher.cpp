@@ -1,7 +1,5 @@
 #include <vector>
-#include <memory>
 #include <spdlog/spdlog.h>
-#include <cpprest/asyncrt_utils.h>
 
 #include "interrupts.h"
 #include "controller/router_controller.h"
