@@ -60,12 +60,12 @@ void Routing_endpoint_controller::handle_post(http_request& request) {
         request.extract_json().then([=](json::value& body) -> void {
             try {
                 json::array nodes_json = body.at(L"nodes").as_array();
-                auto routes = route(parse_nodes(nodes_json), body.at(L"vehicle_capacity").as_integer());
+                auto routes = route(parse_nodes(nodes_json), body.at(L"vehicleCapacity").as_integer());
 
                 request.reply(status_codes::OK, map_routes_to_json(routes));
             }
             catch (json::json_exception& e) {
-                spdlog::get("vehicle-router-server")->error("Bad JSON format: {}", e.what());
+                spdlog::get("vehicle-router-server")->error("Routing request cannot be completed: {}", e.what());
                 request.reply(status_codes::BadRequest);
             }
         });
@@ -75,12 +75,12 @@ void Routing_endpoint_controller::handle_post(http_request& request) {
             try {
                 json::array nodes_json = body.at(L"nodes").as_array();
                 auto routes = route_parallel(&parse_nodes(nodes_json)[0], nodes_json.size(),
-                                             body.at(L"vehicle_capacity").as_integer());
+                                             body.at(L"vehicleCapacity").as_integer());
 
                 request.reply(status_codes::OK, map_routes_to_json(routes));
             }
             catch (json::json_exception& e) {
-                spdlog::get("vehicle-router-server")->error("Bad JSON format: {}", e.what());
+                spdlog::get("vehicle-router-server")->error("Routing request cannot be completed: {}", e.what());
                 request.reply(status_codes::BadRequest);
             }
         });
