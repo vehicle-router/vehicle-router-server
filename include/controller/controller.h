@@ -3,11 +3,11 @@
 #include <string>
 #include <pplx/pplxtasks.h>
 #include <cpprest/http_listener.h>
+#include "controller.h"
 #include "handler.h"
 
 namespace controller {
 
-    using namespace handler;
     using namespace utility;
     using namespace experimental::listener;
 

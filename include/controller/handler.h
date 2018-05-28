@@ -2,7 +2,7 @@
 
 #include <cpprest/http_msg.h>
 
-namespace handler {
+namespace controller {
 
     using namespace web;
     using namespace http;

@@ -41,7 +41,6 @@ void Standard_controller::initialize_http_handlers() {
     http_listener->support(methods::DEL, [&](http_request& request) -> void { handle_delete(request); });
 }
 
-
 json::value Standard_controller::create_unsupported_response_json(const http::method& http_method) const {
     auto response = json::value::object();
 

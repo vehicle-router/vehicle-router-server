@@ -6,6 +6,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 find_package (cpprestsdk REQUIRED NAMES cpprestsdk cpprest)
 find_package (CudaRouterLibrary REQUIRED)
+find_package (Boost COMPONENTS system REQUIRED)
 find_package (spdlog REQUIRED)
 find_package (fmt REQUIRED)
 
